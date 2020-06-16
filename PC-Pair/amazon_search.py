@@ -15,6 +15,7 @@ def amazon_search(query : str) -> (float, str):
     
     amazon_searchpage = requests.get(amazon_url, headers=headers)   #Performing the http request
     page_soup = BeautifulSoup(amazon_searchpage.content, 'lxml')    #Gathering page information with BeautifulSoup
+    print(page_soup.text)
     #
     first_result = page_soup.findAll("div", {"data-index": "1"})[0] #Grabbing the first result of the page
     price = first_result.findAll("span", {"class" : "a-offscreen"}) #Getting the price from the result
@@ -24,4 +25,6 @@ def amazon_search(query : str) -> (float, str):
         product_link = "https://www.amazon.com" + first_result.a['href']    #Create the product link
         product_price = price[0].get_text().replace(',','').lstrip('$')     #Get the product price and convert to a float
         return((float(product_price), product_link))
-    
+
+
+print(amazon_search('EVGA GeForce GTX 1650 SUPER SC ULTRA GAMING'))
